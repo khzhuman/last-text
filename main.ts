@@ -10,5 +10,9 @@ if (entry.trim().length === 0 || entry.length < 1 || entry.length > 200) {
 
 const outputDir = process.env.MAKEFUN_OUTPUT_DIR || "out";
 fs.mkdirSync(outputDir, { recursive: true });
-fs.writeFileSync(path.join(outputDir, "entry.txt"), entry);
+const entryPath = path.join(outputDir, "entry.txt");
+fs.writeFileSync(entryPath, entry);
+if (fs.readFileSync(entryPath, "utf8") !== entry) {
+  throw new Error("Written entry does not match the intended text.");
+}
 console.log(entry);
